@@ -67,6 +67,9 @@ def create_optimizer(loss, init_lr, num_train_steps, num_warmup_steps, use_tpu):
   if use_tpu:
     optimizer = tf.contrib.tpu.CrossShardOptimizer(optimizer)
 
+  from kungfu.tensorflow.v1.optimizers import SynchronousSGDOptimizer
+  optimizer = SynchronousSGDOptimizer(optimizer)
+
   tvars = tf.trainable_variables()
   grads = tf.gradients(loss, tvars)
 

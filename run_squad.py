@@ -29,6 +29,8 @@ import tokenization
 import six
 import tensorflow as tf
 
+from kungfu import current_rank, current_cluster_size
+
 flags = tf.flags
 
 FLAGS = flags.FLAGS
@@ -1141,11 +1143,15 @@ def main(_):
         FLAGS.tpu_name, zone=FLAGS.tpu_zone, project=FLAGS.gcp_project)
 
   is_per_host = tf.contrib.tpu.InputPipelineConfig.PER_HOST_V2
+
+  # KungFu: Let one estimator to do checkpoint.
+  save_checkpoints_steps = None if current_rank() != 0 else FLAGS.save_checkpoints_steps
+
   run_config = tf.contrib.tpu.RunConfig(
       cluster=tpu_cluster_resolver,
       master=FLAGS.master,
       model_dir=FLAGS.output_dir,
-      save_checkpoints_steps=FLAGS.save_checkpoints_steps,
+      save_checkpoints_steps=save_checkpoints_steps,
       tpu_config=tf.contrib.tpu.TPUConfig(
           iterations_per_loop=FLAGS.iterations_per_loop,
           num_shards=FLAGS.num_tpu_cores,
@@ -1165,6 +1171,10 @@ def main(_):
     # buffer in in the `input_fn`.
     rng = random.Random(12345)
     rng.shuffle(train_examples)
+
+    # KungFu: Adjust training steps based on parallelism
+    num_train_steps = num_train_steps // current_cluster_size()
+    num_warmup_steps = num_warmup_steps // current_cluster_size()
 
   model_fn = model_fn_builder(
       bert_config=bert_config,
@@ -1212,7 +1222,12 @@ def main(_):
         seq_length=FLAGS.max_seq_length,
         is_training=True,
         drop_remainder=True)
-    estimator.train(input_fn=train_input_fn, max_steps=num_train_steps)
+
+    # KungFu: let the first estimator to broadcast global variables.
+    from kungfu.tensorflow.v1.initializer import BroadcastGlobalVariablesHook
+    hooks = [BroadcastGlobalVariablesHook()]
+
+    estimator.train(input_fn=train_input_fn, max_steps=num_train_steps, hooks=hooks)
 
   if FLAGS.do_predict:
     eval_examples = read_squad_examples(

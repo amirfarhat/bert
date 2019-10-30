@@ -1,5 +1,16 @@
 # BERT
 
+## Scaling out BERT with KungFu
+
+Install [KungFu](https://github.com/lsds/KungFu) first.
+Configure the relevant paths in the `run_kungfu.sh`, and simply launch:
+
+```bash
+./run_kungfu.sh
+```
+
+## BERT Releases
+
 **\*\*\*\*\* New May 31st, 2019: Whole Word Masking Models \*\*\*\*\***
 
 This is a release of several new models which were the result of an improvement
