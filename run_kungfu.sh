@@ -8,7 +8,7 @@ SQUAD_DIR=/data/squad1
 OUTPUT_DIR=./tmp/squad_base_kungfu
 
 # Path to the kungfu-run executable
-KUNGFU_RUN=$HOME/KungFu/bin/kungfu-run
+KUNGFU_RUN=$HOME/src/KungFu/bin/kungfu-run
 
 $KUNGFU_RUN -np 4 python3 run_squad.py \
   --vocab_file=$BERT_BASE_DIR/vocab.txt \
