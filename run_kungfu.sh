@@ -1,5 +1,5 @@
 # Path to the pre-trained model
-BERT_BASE_DIR=/data/uncased_L-12_H-768_A-12
+BERT_BASE_DIR=$HOME/bert/data/uncased_L-24_H-1024_A-16
 
 # Path to the squad dataset
 SQUAD_DIR=/data/squad1

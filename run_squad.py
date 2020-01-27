@@ -1135,7 +1135,7 @@ def main(_):
 
   validate_flags_or_throw(bert_config)
 
-  tf.gfile.MakeDirs(FLAGS.output_dir)
+  tf.io.gfile.makedirs(FLAGS.output_dir)
 
   tokenizer = tokenization.FullTokenizer(
       vocab_file=FLAGS.vocab_file, do_lower_case=FLAGS.do_lower_case)
@@ -1145,7 +1145,7 @@ def main(_):
     tpu_cluster_resolver = tf.contrib.cluster_resolver.TPUClusterResolver(
         FLAGS.tpu_name, zone=FLAGS.tpu_zone, project=FLAGS.gcp_project)
 
-  is_per_host = tf.contrib.tpu.InputPipelineConfig.PER_HOST_V2
+  is_per_host = tf.compat.v1.contrib.tpu.InputPipelineConfig.PER_HOST_V2
 
   # KungFu: Let one estimator to do checkpoint.
   save_checkpoints_steps = None if current_rank() != 0 else FLAGS.save_checkpoints_steps
