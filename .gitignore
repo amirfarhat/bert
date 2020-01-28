@@ -1,5 +1,10 @@
 # Initially taken from Github's Python gitignore file
 
+*.swp
+data/
+uncased_L-24_H-1024_A-16.zip
+tmp/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

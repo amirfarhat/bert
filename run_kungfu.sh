@@ -2,7 +2,7 @@
 BERT_BASE_DIR=$HOME/bert/data/uncased_L-24_H-1024_A-16
 
 # Path to the squad dataset
-SQUAD_DIR=/data/squad1
+SQUAD_DIR=$HOME/bert/data/squad1
 
 # Path to the checkpoint folder
 OUTPUT_DIR=./tmp/squad_base_kungfu
