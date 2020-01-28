@@ -1127,7 +1127,7 @@ def validate_flags_or_throw(bert_config):
 
 
 def main(_):
-  tf.logging.set_verbosity(tf.logging.INFO)
+  # tf.logging.set_verbosity(tf.logging.INFO)
   tf.compat.v1.logging.set_verbosity(tf.logging.INFO)
   tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.INFO)
 
