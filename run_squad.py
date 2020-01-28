@@ -436,18 +436,18 @@ def convert_examples_to_features(examples, tokenizer, max_seq_length,
         # tf.compat.v1.logging.info("example_index: %s" % (example_index))
         # tf.compat.v1.logging.info("doc_span_index: %s" % (doc_span_index))
         # tf.compat.v1.logging.info("tokens: %s" % " ".join(
-            [tokenization.printable_text(x) for x in tokens]))
+            #[tokenization.printable_text(x) for x in tokens]))
         # tf.compat.v1.logging.info("token_to_orig_map: %s" % " ".join(
-            ["%d:%d" % (x, y) for (x, y) in six.iteritems(token_to_orig_map)]))
+            #["%d:%d" % (x, y) for (x, y) in six.iteritems(token_to_orig_map)]))
         # tf.compat.v1.logging.info("token_is_max_context: %s" % " ".join([
-            "%d:%s" % (x, y) for (x, y) in six.iteritems(token_is_max_context)
-        ]))
+            #"%d:%s" % (x, y) for (x, y) in six.iteritems(token_is_max_context)
+        #]))
         # tf.compat.v1.logging.info("input_ids: %s" % " ".join([str(x) for x in input_ids]))
         # tf.compat.v1.logging.info(
         #     "input_mask: %s" % " ".join([str(x) for x in input_mask]))
         # tf.compat.v1.logging.info(
         #     "segment_ids: %s" % " ".join([str(x) for x in segment_ids]))
-        if is_training and example.is_impossible:
+        #if is_training and example.is_impossible:
           # tf.compat.v1.logging.info("impossible example")
         if is_training and not example.is_impossible:
           answer_text = " ".join(tokens[start_position:(end_position + 1)])
@@ -599,7 +599,7 @@ def model_fn_builder(bert_config, init_checkpoint, learning_rate,
     """The `model_fn` for TPUEstimator."""
 
     tf.compat.v1.logging.info("*** Features ***")
-    for name in sorted(features.keys()):
+    #for name in sorted(features.keys()):
       # tf.compat.v1.logging.info("  name = %s, shape = %s" % (name, features[name].shape))
 
     unique_ids = features["unique_ids"]

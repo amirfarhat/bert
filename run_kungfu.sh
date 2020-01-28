@@ -10,17 +10,16 @@ OUTPUT_DIR=./tmp/squad_base_kungfu
 # Path to the kungfu-run executable
 KUNGFU_RUN=$HOME/src/KungFu/bin/kungfu-run
 
-$KUNGFU_RUN -np 4 python3 run_squad.py \
+$KUNGFU_RUN -np 4 -logdir logs/debug python3 run_squad.py \
   --vocab_file=$BERT_BASE_DIR/vocab.txt \
   --bert_config_file=$BERT_BASE_DIR/bert_config.json \
   --init_checkpoint=$BERT_BASE_DIR/bert_model.ckpt \
   --do_train=True \
   --train_file=$SQUAD_DIR/train-v1.1.json \
-  --do_predict=True \
-  --predict_file=$SQUAD_DIR/dev-v1.1.json \
-  --train_batch_size=8 \
+  --train_batch_size=1 \
   --learning_rate=3e-5 \
-  --num_train_epochs=2.0 \
+  --warmup_proportion=0 \
+  --num_train_epochs=10.0 \
   --max_seq_length=384 \
   --doc_stride=128 \
   --output_dir=$OUTPUT_DIR
