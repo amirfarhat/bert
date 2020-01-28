@@ -1128,7 +1128,7 @@ def validate_flags_or_throw(bert_config):
 
 def main(_):
   # KungFu: let the first estimator to broadcast global variables.
-  from kungfu.tensorflow.v2.initializer import BroadcastGlobalVariablesHook
+  from kungfu.tensorflow.initializer import BroadcastGlobalVariablesHook
   hooks = [BroadcastGlobalVariablesHook()]
 
   tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.INFO)
