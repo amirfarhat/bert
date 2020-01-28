@@ -10,7 +10,7 @@ OUTPUT_DIR=./tmp/squad_base_kungfu
 # Path to the kungfu-run executable
 KUNGFU_RUN=$HOME/src/KungFu/bin/kungfu-run
 
-$KUNGFU_RUN -np 4 -logdir logs/debug python3 run_squad.py \
+$KUNGFU_RUN -np 4 -strategy RING -logdir logs/debug python3 run_squad.py \
   --vocab_file=$BERT_BASE_DIR/vocab.txt \
   --bert_config_file=$BERT_BASE_DIR/bert_config.json \
   --init_checkpoint=$BERT_BASE_DIR/bert_model.ckpt \
