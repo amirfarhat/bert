@@ -431,30 +431,30 @@ def convert_examples_to_features(examples, tokenizer, max_seq_length,
         end_position = 0
 
       if example_index < 20:
-        tf.compat.v1.logging.info("*** Example ***")
-        tf.compat.v1.logging.info("unique_id: %s" % (unique_id))
-        tf.compat.v1.logging.info("example_index: %s" % (example_index))
-        tf.compat.v1.logging.info("doc_span_index: %s" % (doc_span_index))
-        tf.compat.v1.logging.info("tokens: %s" % " ".join(
+        # tf.compat.v1.logging.info("*** Example ***")
+        # tf.compat.v1.logging.info("unique_id: %s" % (unique_id))
+        # tf.compat.v1.logging.info("example_index: %s" % (example_index))
+        # tf.compat.v1.logging.info("doc_span_index: %s" % (doc_span_index))
+        # tf.compat.v1.logging.info("tokens: %s" % " ".join(
             [tokenization.printable_text(x) for x in tokens]))
-        tf.compat.v1.logging.info("token_to_orig_map: %s" % " ".join(
+        # tf.compat.v1.logging.info("token_to_orig_map: %s" % " ".join(
             ["%d:%d" % (x, y) for (x, y) in six.iteritems(token_to_orig_map)]))
-        tf.compat.v1.logging.info("token_is_max_context: %s" % " ".join([
+        # tf.compat.v1.logging.info("token_is_max_context: %s" % " ".join([
             "%d:%s" % (x, y) for (x, y) in six.iteritems(token_is_max_context)
         ]))
-        tf.compat.v1.logging.info("input_ids: %s" % " ".join([str(x) for x in input_ids]))
-        tf.compat.v1.logging.info(
-            "input_mask: %s" % " ".join([str(x) for x in input_mask]))
-        tf.compat.v1.logging.info(
-            "segment_ids: %s" % " ".join([str(x) for x in segment_ids]))
+        # tf.compat.v1.logging.info("input_ids: %s" % " ".join([str(x) for x in input_ids]))
+        # tf.compat.v1.logging.info(
+        #     "input_mask: %s" % " ".join([str(x) for x in input_mask]))
+        # tf.compat.v1.logging.info(
+        #     "segment_ids: %s" % " ".join([str(x) for x in segment_ids]))
         if is_training and example.is_impossible:
-          tf.compat.v1.logging.info("impossible example")
+          # tf.compat.v1.logging.info("impossible example")
         if is_training and not example.is_impossible:
           answer_text = " ".join(tokens[start_position:(end_position + 1)])
-          tf.compat.v1.logging.info("start_position: %d" % (start_position))
-          tf.compat.v1.logging.info("end_position: %d" % (end_position))
-          tf.compat.v1.logging.info(
-              "answer: %s" % (tokenization.printable_text(answer_text)))
+          # tf.compat.v1.logging.info("start_position: %d" % (start_position))
+          # tf.compat.v1.logging.info("end_position: %d" % (end_position))
+          # tf.compat.v1.logging.info(
+          #     "answer: %s" % (tokenization.printable_text(answer_text)))
 
       feature = InputFeatures(
           unique_id=unique_id,
@@ -600,7 +600,7 @@ def model_fn_builder(bert_config, init_checkpoint, learning_rate,
 
     tf.compat.v1.logging.info("*** Features ***")
     for name in sorted(features.keys()):
-      tf.compat.v1.logging.info("  name = %s, shape = %s" % (name, features[name].shape))
+      # tf.compat.v1.logging.info("  name = %s, shape = %s" % (name, features[name].shape))
 
     unique_ids = features["unique_ids"]
     input_ids = features["input_ids"]
@@ -634,13 +634,13 @@ def model_fn_builder(bert_config, init_checkpoint, learning_rate,
       else:
         tf.compat.v1.train.init_from_checkpoint(init_checkpoint, assignment_map)
 
-    tf.compat.v1.logging.info("**** Trainable Variables ****")
+    # tf.compat.v1.logging.info("**** Trainable Variables ****")
     for var in tvars:
       init_string = ""
       if var.name in initialized_variable_names:
         init_string = ", *INIT_FROM_CKPT*"
-      tf.compat.v1.logging.info("  name = %s, shape = %s%s", var.name, var.shape,
-                      init_string)
+      # tf.compat.v1.logging.info("  name = %s, shape = %s%s", var.name, var.shape,
+      #                 init_string)
 
     output_spec = None
     if mode == tf.estimator.ModeKeys.TRAIN:
@@ -745,8 +745,8 @@ def write_predictions(all_examples, all_features, all_results, n_best_size,
                       max_answer_length, do_lower_case, output_prediction_file,
                       output_nbest_file, output_null_log_odds_file):
   """Write final predictions to the json file and log-odds of null if needed."""
-  tf.compat.v1.logging.info("Writing predictions to: %s" % (output_prediction_file))
-  tf.compat.v1.logging.info("Writing nbest to: %s" % (output_nbest_file))
+  # tf.compat.v1.logging.info("Writing predictions to: %s" % (output_prediction_file))
+  # tf.compat.v1.logging.info("Writing nbest to: %s" % (output_nbest_file))
 
   example_index_to_features = collections.defaultdict(list)
   for feature in all_features:
