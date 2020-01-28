@@ -1197,40 +1197,41 @@ def main(_):
       train_batch_size=FLAGS.train_batch_size,
       predict_batch_size=FLAGS.predict_batch_size)
 
-  if FLAGS.do_train:
-    # We write to a temporary file to avoid storing very large constant tensors
-    # in memory.
-    train_writer = FeatureWriter(
-        filename=os.path.join(FLAGS.output_dir, "train.tf_record"),
-        is_training=True)
-    convert_examples_to_features(
-        examples=train_examples,
-        tokenizer=tokenizer,
-        max_seq_length=FLAGS.max_seq_length,
-        doc_stride=FLAGS.doc_stride,
-        max_query_length=FLAGS.max_query_length,
-        is_training=True,
-        output_fn=train_writer.process_feature)
-    train_writer.close()
 
-    tf.compat.v1.logging.info("***** Running training *****")
-    tf.compat.v1.logging.info("  Num orig examples = %d", len(train_examples))
-    tf.compat.v1.logging.info("  Num split examples = %d", train_writer.num_features)
-    tf.compat.v1.logging.info("  Batch size = %d", FLAGS.train_batch_size)
-    tf.compat.v1.logging.info("  Num steps = %d", num_train_steps)
-    del train_examples
+  # if FLAGS.do_train:
+  # We write to a temporary file to avoid storing very large constant tensors
+  # in memory.
+  train_writer = FeatureWriter(
+      filename=os.path.join(FLAGS.output_dir, "train.tf_record"),
+      is_training=True)
+  convert_examples_to_features(
+      examples=train_examples,
+      tokenizer=tokenizer,
+      max_seq_length=FLAGS.max_seq_length,
+      doc_stride=FLAGS.doc_stride,
+      max_query_length=FLAGS.max_query_length,
+      is_training=True,
+      output_fn=train_writer.process_feature)
+  train_writer.close()
 
-    train_input_fn = input_fn_builder(
-        input_file=train_writer.filename,
-        seq_length=FLAGS.max_seq_length,
-        is_training=True,
-        drop_remainder=True)
+  tf.compat.v1.logging.info("***** Running training *****")
+  tf.compat.v1.logging.info("  Num orig examples = %d", len(train_examples))
+  tf.compat.v1.logging.info("  Num split examples = %d", train_writer.num_features)
+  tf.compat.v1.logging.info("  Batch size = %d", FLAGS.train_batch_size)
+  tf.compat.v1.logging.info("  Num steps = %d", num_train_steps)
+  del train_examples
 
-    # KungFu: let the first estimator to broadcast global variables.
-    from kungfu.tensorflow.v1.initializer import BroadcastGlobalVariablesHook
-    hooks = [BroadcastGlobalVariablesHook()]
+  train_input_fn = input_fn_builder(
+      input_file=train_writer.filename,
+      seq_length=FLAGS.max_seq_length,
+      is_training=True,
+      drop_remainder=True)
 
-    estimator.train(input_fn=train_input_fn, max_steps=num_train_steps, hooks=hooks)
+  # KungFu: let the first estimator to broadcast global variables.
+  from kungfu.tensorflow.v1.initializer import BroadcastGlobalVariablesHook
+  hooks = [BroadcastGlobalVariablesHook()]
+
+  estimator.train(input_fn=train_input_fn, max_steps=num_train_steps, hooks=hooks)
 
   if FLAGS.do_predict:
     eval_examples = read_squad_examples(
